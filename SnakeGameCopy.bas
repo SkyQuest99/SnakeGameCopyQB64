@@ -158,7 +158,7 @@ DO
         snakeArray(sn + 1, 1) = snakeArray(sn, 1)
         IF sn <> 1 THEN 'tries not to print behind head(to solve graphics problems for qbjs)
             COLOR 4
-            LOCATE snakeArray(sn, 0), snakeArray(sn, 1): PRINT "Û"
+            LOCATE snakeArray(sn, 0), snakeArray(sn, 1): PRINT "Ã›"
             COLOR 15
         END IF
     NEXT
@@ -186,6 +186,7 @@ DO
 
     _DISPLAY
 
+    ' handles the animation; speed of snake
     snakeAnim = 0
     IF snakeSpeed = 1 THEN
         _LIMIT 7
@@ -242,7 +243,7 @@ FUNCTION load_data (value1 AS INTEGER)
     DO UNTIL EOF(1)
         LINE INPUT #1, text
 
-        ' Gets highscore easy
+        ' Gets highscores
         text1 = get_highscore_type$(text, ".", ",")
         text2 = get_highscore_type$(text, ",", ";")
         text3 = get_highscore_type$(text, ";", ":")
@@ -269,12 +270,14 @@ SUB save_data (value1 AS INTEGER, value2 AS INTEGER) ' value2 is gamemode AKA sn
     DIM values AS STRING
     DIM text AS STRING
 
+    'gets the current text stored in data.txt
     OPEN "data.txt" FOR INPUT AS #1
     DO UNTIL EOF(1)
         LINE INPUT #1, text
     LOOP
     CLOSE #1
 
+    ' saves data according to gamemode
     IF value2 = 1 THEN
         values = "." + STR$(value1) + "," + get_highscore_type$(text, ",", ";") + ";" + get_highscore_type$(text, ";", ":") + ":"
     ELSEIF value2 = 2 THEN
@@ -292,7 +295,7 @@ END SUB
 
 FUNCTION get_highscore_type$ (value1 AS STRING, ts AS STRING, te AS STRING) ' value1 is the full data from "data.txt", ts is the start, te is the end
     DIM index, bool AS INTEGER
-    output_text$ = ""
+    DIM output_text$
 
     FOR index = 0 TO LEN(value1)
         IF MID$(value1, index, 1) = ts OR bool = 1 THEN
@@ -308,6 +311,5 @@ FUNCTION get_highscore_type$ (value1 AS STRING, ts AS STRING, te AS STRING) ' va
 
     get_highscore_type$ = output_text$
 END FUNCTION
-
 
 
