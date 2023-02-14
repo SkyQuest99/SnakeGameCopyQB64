@@ -25,8 +25,8 @@ DIM foodx AS INTEGER
 DIM foody AS INTEGER
 
 ' startup values
-foodx = INT(RND * 70) + 3
-foody = INT(RND * 20) + 3
+foodx = INT(RND * 65) + 4
+foody = INT(RND * 15) + 4
 
 DIM sn AS INTEGER ' for looping in snakeLenght
 
@@ -128,8 +128,8 @@ DO
         snakeAnim = 1
         BEEP
         WHILE foodx = snakeX AND foody = snakeY
-            foodx = INT(RND * 70) + 3
-            foody = INT(RND * 20) + 3
+            foodx = INT(RND * 65) + 4
+            foody = INT(RND * 15) + 4
         WEND
         snakeSnakeLength = snakeSnakeLength + 1
     END IF
