@@ -7,6 +7,8 @@ Has 3 gamemodes easy, medium and hard
 
 game also available at itch.io https://skybird-99.itch.io/snakegame
 
+In the bas file the data is saved to a file called data.txt, In the browsers local storage
+
 ![image](https://user-images.githubusercontent.com/71566490/218525506-aeda7e54-a98c-48ca-a493-a2f260055a40.png)
 
 
