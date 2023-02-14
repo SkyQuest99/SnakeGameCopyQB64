@@ -1,5 +1,5 @@
 # SnakeGameCopyQB64
-Snake game copy made in qb64 v2.1 win64
+Snake game copy made in qb64
 
 sourcecode is under MIT license(you can credit me if you want, if you did I will really appreciate it)
 
