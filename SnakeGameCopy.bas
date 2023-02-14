@@ -1,5 +1,6 @@
 ' clears the screen; Sets the title of the window; sets the screen size; sets the fullscreen value to 0(false)
 CLS
+$EXEICON:'.\icon.ico' 
 _TITLE "SNAKE GAME"
 
 ' loads a image
