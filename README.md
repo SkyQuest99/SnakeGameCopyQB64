@@ -1,7 +1,7 @@
 # SnakeGameCopyQB64
 Snake game copy made in qb64
 
-sourcecode is under MIT license(you can credit me if you want, if you did I will really appreciate it)
+sourcecode is under MIT license(please credit me, if you did I will really appreciate it)
 
 Has 3 gamemodes easy, medium and hard
 
