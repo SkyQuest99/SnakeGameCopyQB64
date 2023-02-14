@@ -5,6 +5,7 @@ sourcecode is under MIT license(you can credit me if you want, if you did I will
 
 Has 3 gamemodes easy, medium and hard
 
+game also available at itch.io https://skybird-99.itch.io/snakegame
 
 ![image](https://user-images.githubusercontent.com/71566490/218525506-aeda7e54-a98c-48ca-a493-a2f260055a40.png)
 
