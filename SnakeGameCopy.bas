@@ -202,7 +202,7 @@ DO
     COLOR 15
 
     'score and web, fullscreen
-    LOCATE 27, 3: PRINT "SCORE:"; STR$(score%); "   (Press B for website, Press F for fullscreen)"
+    LOCATE 27, 3: PRINT STR$(snakeSpeed%) + ". "; "SCORE:"; STR$(score%); "   (Press B for website, Press F for fullscreen)"
 
     ' handles the saving and loading data
     highscore% = load_data%(snakeSpeed%) ' loads
@@ -235,17 +235,37 @@ FUNCTION speed_choices% (snakeSpeed%)
     PRINT
     PRINT
     PRINT
+    
     PRINT "1. EASY"
     PRINT "2. MEDIUM"
     PRINT "3. HARD"
-    INPUT "ENTER SNAKE SPEED"; snakeSpeed%
-    BEEP
+    PRINT "Click on your option"
 
-    WHILE snakeSpeed% <> 1 AND snakeSpeed% <> 2 AND snakeSpeed% <> 3
-        PRINT "INVALID, Please enter 1 or 2 or 3"
-        INPUT "ENTER SNAKE SPEED"; snakeSpeed%
-        BEEP
-    WEND
+    DIM buttonPressed%, mi, mb, mx%, my%
+    DO
+        DO WHILE _MOUSEINPUT
+        LOOP
+        mi = _MOUSEINPUT
+        mb = _MOUSEBUTTON(1)
+        mx% = _MOUSEX
+        my% = _MOUSEY
+
+        IF mb THEN
+            IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 6.5 AND ((my% / 480) * 30) >= 4 AND ((my% / 480) * 30) <= 5 THEN
+                snakeSpeed% = 1
+                buttonPressed% = 1
+                BEEP
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 8.5 AND ((my% / 480) * 30) >= 5 AND ((my% / 480) * 30) <= 6 THEN
+                snakeSpeed% = 2
+                buttonPressed% = 1
+                BEEP
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 6.5 AND ((my% / 480) * 30) >= 6 AND ((my% / 480) * 30) <= 7 THEN
+                snakeSpeed% = 2
+                buttonPressed% = 1
+                BEEP
+            END IF
+        END IF
+    LOOP UNTIL buttonPressed% = 1
 
     speed_choices% = snakeSpeed%
 END FUNCTION
