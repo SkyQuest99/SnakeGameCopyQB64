@@ -18,7 +18,8 @@ RANDOMIZE TIMER
 DIM score%, highscore%
 
 ' sets the max length of snake as a constant; Snake body as an array
-CONST MAX_SNAKE_LENGTH% = 500
+DIM MAX_SNAKE_LENGTH%
+MAX_SNAKE_LENGTH% = 500
 REDIM snakeArray%(1 TO MAX_SNAKE_LENGTH%, 0 TO 1)
 
 ' The food's x and y position
@@ -184,7 +185,7 @@ DO
         snakeArray%(sn% + 1, 1) = snakeArray%(sn%, 1)
         IF sn% <> 1 THEN 'tries not to print behind head(to solve graphics problems for qbjs)
             COLOR 4
-            LOCATE snakeArray%(sn%, 0), snakeArray%(sn%, 1): PRINT "Û"
+            LOCATE snakeArray%(sn%, 0), snakeArray%(sn%, 1): PRINT "Ã›"
             COLOR 15
         END IF
     NEXT
