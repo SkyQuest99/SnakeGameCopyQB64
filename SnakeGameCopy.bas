@@ -236,37 +236,41 @@ FUNCTION speed_choices% (snakeSpeed%)
     PRINT
     PRINT
     
-    PRINT "1. EASY"
-    PRINT "2. MEDIUM"
-    PRINT "3. HARD"
+    PRINT "[1. EASY]"
+    PRINT "-----------"
+    PRINT "[2. MEDIUM]"
+    PRINT "-----------"
+    PRINT "[3. HARD]"
+    PRINT
     PRINT "Click on your option"
 
     DIM buttonPressed%, mi, mb, mx%, my%
     DO
         DO WHILE _MOUSEINPUT
         LOOP
+
         mi = _MOUSEINPUT
         mb = _MOUSEBUTTON(1)
         mx% = _MOUSEX
         my% = _MOUSEY
 
         IF mb THEN
-            IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 6.5 AND ((my% / 480) * 30) >= 4 AND ((my% / 480) * 30) <= 5 THEN
+            IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 4 AND ((my% / 480) * 30) <= 6 THEN
                 snakeSpeed% = 1
                 buttonPressed% = 1
                 BEEP
-            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 8.5 AND ((my% / 480) * 30) >= 5 AND ((my% / 480) * 30) <= 6 THEN
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 11 AND ((my% / 480) * 30) >= 6 AND ((my% / 480) * 30) <= 8 THEN
                 snakeSpeed% = 2
                 buttonPressed% = 1
                 BEEP
-            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 6.5 AND ((my% / 480) * 30) >= 6 AND ((my% / 480) * 30) <= 7 THEN
-                snakeSpeed% = 2
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 8 AND ((my% / 480) * 30) <= 10 THEN
+                snakeSpeed% = 3
                 buttonPressed% = 1
                 BEEP
             END IF
         END IF
     LOOP UNTIL buttonPressed% = 1
-
+    
     speed_choices% = snakeSpeed%
 END FUNCTION
 
