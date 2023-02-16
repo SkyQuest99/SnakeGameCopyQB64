@@ -18,8 +18,7 @@ RANDOMIZE TIMER
 DIM score%, highscore%
 
 ' sets the max length of snake as a constant; Snake body as an array
-DIM MAX_SNAKE_LENGTH%
-MAX_SNAKE_LENGTH% = 500
+CONST MAX_SNAKE_LENGTH% = 500
 REDIM snakeArray%(1 TO MAX_SNAKE_LENGTH%, 0 TO 1)
 
 ' The food's x and y position
@@ -27,8 +26,8 @@ DIM foodx%
 DIM foody%
 
 ' startup values
-foodx% = INT(RND * 65) + 4
-foody% = INT(RND * 15) + 4
+foodx% = INT(RND * 73) + 4
+foody% = INT(RND * 23) + 2
 
 DIM sn% ' for looping in snakeLenght
 
@@ -45,11 +44,11 @@ DIM snakeAnim%
 DIM snakeDied%
 
 ' initial values
-snakeX% = 15
-snakeY% = 31
+snakeX% = 38
+snakeY% = 12
 snakeDied% = 0
-snakeYd% = 1
-snakeXd% = 0
+snakeYd% = 0
+snakeXd% = 1
 snakeLength% = 1
 snakeAnim% = 0
 
@@ -128,42 +127,31 @@ DO
         snakeAnim% = 1
         BEEP
         WHILE foodx% = snakeX% AND foody% = snakeY%
-            foodx% = INT(RND * 65) + 4
-            foody% = INT(RND * 15) + 4
+            foodx% = INT(RND * 73) + 4
+            foody% = INT(RND * 23) + 2
         WEND
         snakeLength% = snakeLength% + 1
     END IF
 
     ' check if player died; game resets
     IF snakeDied% THEN
-        CLS
-
-        SCREEN _NEWIMAGE(640, 480, 32)
-        pic1& = _LOADIMAGE("pic3.png")
-        _PUTIMAGE (0, -30), pic1&
-
         score% = 0
         highscore% = 0
 
         REDIM snakeArray%(1 TO MAX_SNAKE_LENGTH%, 0 TO 1)
 
-        foodx% = INT(RND * 65) + 4
-        foody% = INT(RND * 15) + 4
+        foodx% = INT(RND * 73) + 4
+        foody% = INT(RND * 23) + 2
 
-        snakeX% = 15
-        snakeY% = 31
+        snakeX% = 38
+        snakeY% = 12
         snakeDied% = 0
-        snakeYd% = 1
-        snakeXd% = 0
+        snakeYd% = 0
+        snakeXd% = 1
         snakeLength% = 1
         snakeAnim% = -1
 
         keypress% = 0
-        snakeSpeed% = 0
-
-        snakeSpeed% = speed_choices%(snakeSpeed%)
-        SCREEN _NEWIMAGE(640, 480, 256)
-        _FREEIMAGE pic1&
     END IF
 
     'clears screen before drawing garden, snake, texts
@@ -202,7 +190,7 @@ DO
     COLOR 15
 
     'score and web, fullscreen
-    LOCATE 27, 3: PRINT STR$(snakeSpeed%) + ". "; "SCORE:"; STR$(score%); "   (Press B for website, Press F for fullscreen)"
+    LOCATE 27, 3: PRINT STR$(snakeSpeed%) + ". "; "SCORE:"; STR$(score%); "   (Press B for website, Press F for fullscreen or alt+enter)"
 
     ' handles the saving and loading data
     highscore% = load_data%(snakeSpeed%) ' loads
@@ -216,14 +204,14 @@ DO
     ' handles the animation; speed of snake
     snakeAnim% = 0
     IF snakeSpeed% = 1 THEN
-        _LIMIT 7
+        _LIMIT 10
     ELSEIF snakeSpeed% = 2 THEN
-        _LIMIT 14
+        _LIMIT 15
     ELSEIF snakeSpeed% = 3 THEN
         _LIMIT 20
     END IF
 
-LOOP UNTIL _KEYDOWN(27) 'exits game if ESCAPE pressed
+LOOP UNTIL _KEYDOWN(114) OR _KEYDOWN(82) 'exits game if ESCAPE pressed
 
 END
 
@@ -235,7 +223,7 @@ FUNCTION speed_choices% (snakeSpeed%)
     PRINT
     PRINT
     PRINT
-    
+
     PRINT "[1. EASY]"
     PRINT "-----------"
     PRINT "[2. MEDIUM]"
@@ -245,16 +233,17 @@ FUNCTION speed_choices% (snakeSpeed%)
     PRINT "Click on your option"
 
     DIM buttonPressed%, mi, mb, mx%, my%
-    DO
-        DO WHILE _MOUSEINPUT
+
+    WHILE buttonPressed% = 0 ' checks if player has pressed a button
+        DO WHILE _MOUSEINPUT ' loop finished when there is a mouseinput
         LOOP
 
-        mi = _MOUSEINPUT
-        mb = _MOUSEBUTTON(1)
-        mx% = _MOUSEX
-        my% = _MOUSEY
+        mi = _MOUSEINPUT ' gets input
+        mb = _MOUSEBUTTON(1) 'gets the button
+        mx% = _MOUSEX 'gets mouse x
+        my% = _MOUSEY ' gets mouse y
 
-        IF mb THEN
+        IF mb THEN ' if 1 is pressed it does if's for button
             IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 4 AND ((my% / 480) * 30) <= 6 THEN
                 snakeSpeed% = 1
                 buttonPressed% = 1
@@ -269,8 +258,8 @@ FUNCTION speed_choices% (snakeSpeed%)
                 BEEP
             END IF
         END IF
-    LOOP UNTIL buttonPressed% = 1
-    
+    WEND
+
     speed_choices% = snakeSpeed%
 END FUNCTION
 
@@ -299,7 +288,7 @@ FUNCTION load_data% (snakeSpeed%)
         text2$ = get_highscore_type$(text$, ",", ";")
         text3$ = get_highscore_type$(text$, ";", ":")
 
-        LOCATE 28, 3: PRINT "HIGHSCORES = EASY:"; text1$; " MEDUIM:"; text2$; " HARD:"; text3$
+        LOCATE 28, 3: PRINT "HIGHSCORES = EASY:"; text1$; " MEDUIM:"; text2$; " HARD:"; text3$, "Press R to quit"
 
         IF snakeSpeed% = 1 THEN
             load_data% = VAL(text1$)
@@ -363,6 +352,5 @@ FUNCTION get_highscore_type$ (text$, ts$, te$) ' text$ is the full data from "da
 
     get_highscore_type$ = output_text$
 END FUNCTION
-
 
 
