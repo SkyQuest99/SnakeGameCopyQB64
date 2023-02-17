@@ -18,8 +18,7 @@ RANDOMIZE TIMER
 DIM score%, highscore%
 
 ' sets the max length of snake as a constant; Snake body as an array
-CONST MAX_SNAKE_LENGTH% = 500
-REDIM snakeArray%(1 TO MAX_SNAKE_LENGTH%, 0 TO 1)
+REDIM snakeArray%(1 TO 500, 0 TO 1)
 
 ' The food's x and y position
 DIM foodx%
@@ -138,7 +137,7 @@ DO
         score% = 0
         highscore% = 0
 
-        REDIM snakeArray%(1 TO MAX_SNAKE_LENGTH%, 0 TO 1)
+        REDIM snakeArray%(1 TO 500, 0 TO 1)
 
         foodx% = INT(RND * 73) + 4
         foody% = INT(RND * 23) + 2
