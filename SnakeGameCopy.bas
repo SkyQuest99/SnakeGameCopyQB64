@@ -9,7 +9,7 @@ SCREEN _NEWIMAGE(640, 480, 32)
 pic1& = _LOADIMAGE("pic3.png")
 _PUTIMAGE (0, -30), pic1&
 
-DIM is_fullscreen%
+DIM is_fullscreen%, use_keypad%
 
 ' makes the first index of array start at 1 instead of 0; Sets up the randomize timer
 RANDOMIZE TIMER
@@ -25,7 +25,7 @@ DIM foodx%
 DIM foody%
 
 ' startup values
-foodx% = INT(RND * 73) + 4
+foodx% = INT(RND * 48) + 4
 foody% = INT(RND * 23) + 2
 
 DIM sn% ' for looping in snakeLenght
@@ -56,11 +56,22 @@ DIM keypress%, snakeSpeed%
 
 'gives choices for speed; sets up the game screen
 snakeSpeed% = speed_choices%(snakeSpeed%)
+use_keypad% = keypad%(use_keypad%)
 SCREEN _NEWIMAGE(640, 480, 256)
 _FREEIMAGE pic1&
 
 DO
     keypress% = _KEYHIT
+
+    DIM mi, mb, mx%, my%
+
+    DO WHILE _MOUSEINPUT
+    LOOP
+
+    mi = _MOUSEINPUT
+    mb = _MOUSEBUTTON(1)
+    mx% = _MOUSEX
+    my% = _MOUSEY
 
     ' handles the if's
     IF _KEYDOWN(87) OR _KEYDOWN(119) OR _KEYDOWN(18432) THEN 'up
@@ -83,6 +94,21 @@ DO
             snakeXd% = -1
             snakeYd% = 0
         END IF
+    ELSEIF mb AND use_keypad% = 1 THEN ' handles the input for touchscreen
+        IF snakeYd% <> 1 AND mx% >= 500 AND mx% <= 530 AND my% >= 264 AND my% <= 320 THEN
+            snakeXd% = 0
+            snakeYd% = -1
+        ELSEIF snakeYd% <> -1 AND mx% >= 500 AND mx% <= 530 AND my% >= 330 AND my% <= 384 THEN
+            snakeXd% = 0
+            snakeYd% = 1
+        ELSEIF snakeXd% <> -1 AND mx% >= 540 AND mx% <= 600 AND my% >= 310 AND my% <= 344 THEN
+            snakeXd% = 1
+            snakeYd% = 0
+        ELSEIF snakeXd% <> 1 AND mx% >= 434 AND mx% <= 490 AND my% >= 310 AND my% <= 344 THEN
+            snakeXd% = -1
+            snakeYd% = 0
+        END IF
+
     ELSEIF keypress% = 66 OR keypress% = 98 THEN 'go to browser(B)
         BEEP
         SHELL "start https://skyquestweb.wordpress.com/"
@@ -126,8 +152,14 @@ DO
         snakeAnim% = 1
         BEEP
         WHILE foodx% = snakeX% AND foody% = snakeY%
-            foodx% = INT(RND * 73) + 4
-            foody% = INT(RND * 23) + 2
+            IF use_keypad% = 0 THEN
+                foodx% = INT(RND * 73) + 4
+                foody% = INT(RND * 23) + 2
+
+            ELSE
+                foodx% = INT(RND * 48) + 4
+                foody% = INT(RND * 23) + 2
+            END IF
         WEND
         snakeLength% = snakeLength% + 1
     END IF
@@ -139,8 +171,14 @@ DO
 
         REDIM snakeArray%(1 TO 500, 0 TO 1)
 
-        foodx% = INT(RND * 73) + 4
-        foody% = INT(RND * 23) + 2
+        IF use_keypad% = 0 THEN
+            foodx% = INT(RND * 73) + 4
+            foody% = INT(RND * 23) + 2
+
+        ELSE
+            foodx% = INT(RND * 48) + 4
+            foody% = INT(RND * 23) + 2
+        END IF
 
         snakeX% = 38
         snakeY% = 12
@@ -187,6 +225,13 @@ DO
         LOCATE snakeY%, snakeX%: PRINT CHR$(1)
     END IF
     COLOR 15
+
+    IF use_keypad% = 1 THEN
+        LINE (500, 264)-(530, 320), 15, B: LOCATE 19, 65: PRINT CHR$(24)
+        LINE (500, 330)-(530, 384), 15, B: LOCATE 23, 65: PRINT CHR$(25)
+        LINE (540, 310)-(600, 344), 15, B: LOCATE 21, 72: PRINT CHR$(26)
+        LINE (434, 310)-(490, 344), 15, B: LOCATE 21, 58: PRINT CHR$(27)
+    END IF
 
     'score and web, fullscreen
     LOCATE 27, 3: PRINT STR$(snakeSpeed%) + ". "; "SCORE:"; STR$(score%); "   (Press B for website, Press F for fullscreen or alt+enter)"
@@ -243,25 +288,64 @@ FUNCTION speed_choices% (snakeSpeed%)
         my% = _MOUSEY ' gets mouse y
 
         IF mb THEN ' if 1 is pressed it does if's for button
-            IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 4 AND ((my% / 480) * 30) <= 6 THEN
+            IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 4 AND ((my% / 480) * 30) <= 5 THEN
                 snakeSpeed% = 1
                 buttonPressed% = 1
                 BEEP
-            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 11 AND ((my% / 480) * 30) >= 6 AND ((my% / 480) * 30) <= 8 THEN
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 11 AND ((my% / 480) * 30) >= 6 AND ((my% / 480) * 30) <= 7 THEN
                 snakeSpeed% = 2
                 buttonPressed% = 1
                 BEEP
-            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 8 AND ((my% / 480) * 30) <= 10 THEN
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 9 AND ((my% / 480) * 30) >= 8 AND ((my% / 480) * 30) <= 9 THEN
                 snakeSpeed% = 3
                 buttonPressed% = 1
                 BEEP
             END IF
         END IF
     WEND
+    buttonPressed% = 0
 
     speed_choices% = snakeSpeed%
 END FUNCTION
 
+FUNCTION keypad% (use_keypad%)
+    CLS
+    PRINT
+    PRINT
+
+    PRINT "Use keypad"
+    PRINT "[YES]"
+    PRINT "-----"
+    PRINT " [NO]"
+    PRINT "Click on your option"
+
+    SLEEP 1
+    DIM buttonPressed%, mi, mb, mx%, my%
+
+    WHILE buttonPressed% = 0 ' checks if player has pressed a button
+        DO WHILE _MOUSEINPUT ' loop finished when there is a mouseinput
+        LOOP
+
+        mi = _MOUSEINPUT ' gets input
+        mb = _MOUSEBUTTON(1) 'gets the button
+        mx% = _MOUSEX 'gets mouse x
+        my% = _MOUSEY ' gets mouse y
+
+        IF mb THEN ' if 1 is pressed it does if's for button
+            IF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 6 AND ((my% / 480) * 30) >= 3 AND ((my% / 480) * 30) <= 4 THEN
+                use_keypad% = 1
+                buttonPressed% = 1
+                BEEP
+            ELSEIF ((mx% / 680) * 80) >= 0 AND ((mx% / 680) * 80) <= 6 AND ((my% / 480) * 30) >= 5 AND ((my% / 480) * 30) <= 6 THEN
+                use_keypad% = 0
+                buttonPressed% = 1
+                BEEP
+            END IF
+        END IF
+    WEND
+
+    keypad% = use_keypad%
+END FUNCTION
 
 'loads data
 FUNCTION load_data% (snakeSpeed%)
@@ -351,5 +435,3 @@ FUNCTION get_highscore_type$ (text$, ts$, te$) ' text$ is the full data from "da
 
     get_highscore_type$ = output_text$
 END FUNCTION
-
-
