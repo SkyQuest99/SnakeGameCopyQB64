@@ -5,7 +5,7 @@ sourcecode is under MIT license(please credit me, if you did I will really appre
 
 Has 3 gamemodes easy, medium and hard
 
-game also available at itch.io https://skybird-99.itch.io/snakegame
+game also available as a playable html at https://skyquest99.github.io/SnakeGameCopyQB64/
 
 In the bas file the data is saved to a file called data.txt, In html its saved to browsers local storage
 
