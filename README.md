@@ -7,7 +7,7 @@ Has 3 gamemodes easy, medium and hard
 
 game also available as a playable html at [here](https://skybird-99.itch.io/snakegame)
 
-Check my [website](https://skybird-99.itch.io/snakegame) for more stuff
+Check my [website](https://skyquestweb.wordpress.com) for more stuff
 
 In the bas file the data is saved to a file called data.txt, In html its saved to browsers local storage
 In the html version it tries to detect device type and if it detects a mobile device it will enable keypad automatically 
